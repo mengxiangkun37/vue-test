@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue 示例</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="name" placeholder="名字">
+        <h1>你好,{{name}}</h1>
+        <h2>{{date | formatDate}}</h2>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var padDate = function(value){
+            return value <10?'0'+value:value;
+        }
+        var app = new Vue({
+            el: '#app',
+            data: {
+                name: '',
+                a: 2,
+                date:new Date()
+            },
+            filters:{
+                formatDate:function(value){
+                    var date = new Date(value);
+                    var year =date.getFullYear();
+                    var month = padDate(date.getMonth());
+                    var day = padDate(date.getDate());
+                    var hours = padDate(date.getHours());
+                    var minutes = padDate(date.getMinutes());
+                    var seconds = padDate(date.getSeconds());
+                    return year+'-'+month+'-'+day+' '+hours+':'+minutes+':'+seconds;
+                }  
+            },
+            created: function () {
+                console.log(this.a);
+
+            },
+            mounted:function(){
+                console.log(this.$el);
+                var _this = this; 
+                this.timer = setInterval(function(){
+                    _this.date = new Date();
+                },1000);
+            },
+            beforeDestroy:function(){
+                if(this.timer){
+                    clearInterval(this.timer);
+                }
+            }
+        })
+        console.log(app.a)
+    </script>
+</body>
+
+</html>
